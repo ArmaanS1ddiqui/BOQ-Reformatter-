@@ -1,4 +1,4 @@
-# processing_functions.py
+
 import pandas as pd
 import re
 
@@ -20,13 +20,13 @@ def clean_df(df, header_idx, cols_to_keep, mapping):
     pattern = '|'.join(keywords_to_remove)
     data = data[~data[desc_col].str.lower().str.contains(pattern, na=False)].copy()
     
-    # Format text data types
+    
     data[desc_col] = data[desc_col].astype(str).str.strip()
     if 'Name' in mapping:
         name_col = mapping['Name']
         data[name_col] = data[name_col].astype(str).str.strip()
 
-    # Format numeric data types
+    
     for field in ['Quantity', 'Rate']:
         if field in mapping:
             col_name = mapping[field]
@@ -42,7 +42,7 @@ def create_sections(df, mapping):
     qty_col = mapping['Quantity']
     rate_col = mapping['Rate']
     
-    # Define patterns for auto-detection
+    
     parent_pattern = re.compile(r'^[A-Z]\.|^([IVXLC]+\.)') 
     child_pattern = re.compile(r'^\d+\.\d+|^[a-z]\)') 
     ambiguous_pattern = re.compile(r'^\d+\.') 
@@ -53,12 +53,12 @@ def create_sections(df, mapping):
 
     for _, row in df.iterrows():
         desc = row[desc_col]
-        # --- THIS IS THE KEY FIX ---
+        
         # Ensure we are checking numbers against numbers (0.0 vs 0)
         qty = float(row[qty_col])
         rate = float(row[rate_col])
 
-        # Check if the row is a heading
+        
         if qty == 0.0 and rate == 0.0 and desc:
             desc_stripped = desc.strip()
             if parent_pattern.match(desc_stripped):
@@ -81,7 +81,7 @@ def create_sections(df, mapping):
 
     df['Section'] = sections
     
-    # Finally, remove the original heading rows
+    # remove the original heading rows
     final_df = df[(df[qty_col] != 0.0) | (df[rate_col] != 0.0)].copy()
     
     print("Sections created and heading rows removed.")

@@ -37,11 +37,9 @@ def main():
     
     cleaned_data = clean_df(df, header_index, cols_to_use, field_mapping)
     
-    # --- NEW DEBUGGING STEP ---
-    # Let's inspect the data before creating sections to see if headings are present.
+    #inspecting the data before creating sections
     print("\n--- Data being sent to create_sections (DEBUG PREVIEW) ---")
     print(cleaned_data.head(25)) # Print the first 25 rows
-    # --------------------------
     
     data_with_sections = create_sections(cleaned_data, field_mapping)
     final_boq = trim_df(data_with_sections, field_mapping)

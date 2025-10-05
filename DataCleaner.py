@@ -110,7 +110,7 @@ def clean_df(df, header_idx, cols_to_keep, mapping):
     
     data[desc_col] = data[desc_col].astype(str).str.strip()
 
-    # --- NEW: Clean the 'Name' column if it exists in the mapping ---
+    #Clean the 'Name' column if it exists in the mapping
     if 'Name' in mapping:
         name_col = mapping['Name']
         data[name_col] = data[name_col].astype(str).str.strip()
@@ -180,12 +180,12 @@ def main():
     
     save_choice = input("\nDo you want to save this to a CSV file? (yes/no): ").lower()
     if save_choice == 'yes':
-        # --- NEW: Logic to save the file in an 'output' folder ---
+
         output_folder = "output"
         os.makedirs(output_folder, exist_ok=True) # Create folder if it doesn't exist
         
-        base_filename = os.path.basename(filepath) # e.g., "GreenCurve_BOQ.xlsx"
-        new_filename = os.path.splitext(base_filename)[0] + "_cleaned.csv" # e.g., "GreenCurve_BOQ_cleaned.csv"
+        base_filename = os.path.basename(filepath) 
+        new_filename = os.path.splitext(base_filename)[0] + "_cleaned.csv" 
         
         output_path = os.path.join(output_folder, new_filename)
         
